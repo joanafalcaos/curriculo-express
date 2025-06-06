@@ -13,11 +13,11 @@ module.exports = async function handler(req, res) {
 
   } else if (req.method === 'POST') {
     // Cadastrar nova pessoa
-    const { nome, email, telefone } = req.body;
+    const { nome, email, telefone, habilidades, formacao } = req.body;
     try {
       const resultado = await db.query(
-        'INSERT INTO pessoas (nome, email, telefone) VALUES ($1, $2, $3) RETURNING *',
-        [nome, email, telefone]
+        'INSERT INTO pessoas (nome, email, telefone, habilidades, formacao) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [nome, email, telefone, habilidades, formacao]
       );
       res.status(201).json(resultado.rows[0]);
     } catch (error) {
@@ -27,14 +27,14 @@ module.exports = async function handler(req, res) {
 
   } else if (req.method === 'PUT') {
     // Alterar dados de uma pessoa
-    const { id, nome, email, telefone } = req.body;
+    const { id, nome, email, telefone, habilidades, formacao } = req.body;
     if (!id) {
       return res.status(400).json({ erro: 'ID é obrigatório para atualização' });
     }
     try {
       const resultado = await db.query(
-        'UPDATE pessoas SET nome = $1, email = $2, telefone = $3 WHERE id = $4 RETURNING *',
-        [nome, email, telefone, id]
+        'UPDATE pessoas SET nome = $1, email = $2, telefone = $3, habilidades = $4, formacao = $5 WHERE id = $6 RETURNING *',
+        [nome, email, telefone, habilidades, formacao, id]
       );
       res.status(200).json(resultado.rows[0]);
     } catch (error) {
