@@ -1,11 +1,10 @@
 // api/pessoas.js
 const db = require('../src/db');
 
-
 module.exports = async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      const resultado = await pool.query('SELECT * FROM pessoas');
+      const resultado = await db.query('SELECT * FROM pessoas');
       res.status(200).json(resultado.rows);
     } catch (error) {
       console.error(error);
@@ -14,7 +13,7 @@ module.exports = async function handler(req, res) {
   } else if (req.method === 'POST') {
     const { nome, email, profissao } = req.body;
     try {
-      const resultado = await pool.query(
+      const resultado = await db.query(
         'INSERT INTO pessoas (nome, email, profissao) VALUES ($1, $2, $3) RETURNING *',
         [nome, email, profissao]
       );
