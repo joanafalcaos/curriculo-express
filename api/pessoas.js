@@ -1,5 +1,6 @@
 // api/pessoas.js
-const pool = require('../../db');
+const db = require('../src/db');
+
 
 module.exports = async function handler(req, res) {
   if (req.method === 'GET') {
